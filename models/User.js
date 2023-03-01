@@ -4,22 +4,35 @@ const userSchema = new Schema(
     {
         username: {
             type: string,
-            //Unique???
+            unique: true,
             required: true,
-            //trimmed???
+            trim: true
         },
         email: {
             type: string, 
             required: true, 
-            // Unique???
-            // MUST MATCH A VALID EMAIL ADDRESS???
+            unique: true,
+            match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/, 'Must use a valid email address']
         },
-        thoughts: {
-            // ARRAY OF _id VALUES REFERENCING THE Thought MODEL???
-        },
-        friends: {
-            //ARRAY OF _id VALUES REFERENCING THE User MODEL (SELF REFERENCE)
+        thoughts: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Thought'
+        }],
+        friends: [{
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }]
+    },
+    {
+        toJSON: {
+            virtuals: true
         }
     }
 )
-//Create a virtual called friendCount that retrieves the length of the user's friends array field on query.
+userSchema.virtuals('friendCount').get(function () {
+    return this.friends.length;
+})
+
+const User = model('User', userSchema);
+
+module.exports = User;
