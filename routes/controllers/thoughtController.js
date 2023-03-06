@@ -68,6 +68,8 @@ const thoughtController = {
         res.status(500).json(err);
       });
   },
+
+}
  
 
 module.exports = thoughtController;
