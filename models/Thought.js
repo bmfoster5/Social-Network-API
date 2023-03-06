@@ -5,7 +5,7 @@ const formatDate = require('../formatDate')
 const thoughtSchema = new Schema(
     {
         thoughtText: {
-            type: string,
+            type: String,
             required: true,
             maxlength: 280
         },
@@ -15,7 +15,7 @@ const thoughtSchema = new Schema(
             get: timeStamp => formatDate(timeStamp)
         },
         username: {
-            type: string,
+            type: String,
             date: true,
         },
         reactions: [
@@ -29,7 +29,7 @@ const thoughtSchema = new Schema(
         }
     })
 
-thoughtSchema.virtuals('reactionCount').get(function () {
+thoughtSchema.virtual('reactionCount').get(function () {
     return this.reactions.length;
 })
 
