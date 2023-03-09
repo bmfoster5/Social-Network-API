@@ -67,7 +67,20 @@ const thoughtController = {
         console.log(err);
         res.status(500).json(err);
       });
-  },
+
+    },
+
+    addReaction(req, res) {
+      Thought.findOneAndUpdate({ _id: req.params.thoughtId })
+        .then((dbUserData) => {
+          res.status(200).json(dbUserData)
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json(err);
+        });
+  
+      },
 
 }
  
