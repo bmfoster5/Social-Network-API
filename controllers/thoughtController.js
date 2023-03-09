@@ -17,7 +17,7 @@ const thoughtController = {
   getSingleThought(req, res) {
     Thought.findOne({ _id: req.params.thoughtId })
       .then((dbUserData) => {
-      
+
         res.status(200).json(dbUserData);
       })
       .catch((err) => {
@@ -25,7 +25,7 @@ const thoughtController = {
         res.status(500).json(err);
       });
   },
- 
+
   createThought(req, res) {
     Thought.create(req.body)
       .then((dbUserData) => {
@@ -49,7 +49,7 @@ const thoughtController = {
       }
     )
       .then((dbUserData) => {
-       
+
         res.status(200).json(dbUserData);
       })
       .catch((err) => {
@@ -68,21 +68,26 @@ const thoughtController = {
         res.status(500).json(err);
       });
 
-    },
+  },
 
-    addReaction(req, res) {
-      Thought.findOneAndUpdate({ _id: req.params.thoughtId })
-        .then((dbUserData) => {
-          res.status(200).json(dbUserData)
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(500).json(err);
-        });
-  
-      },
+  addReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions: req.body } },
+      { runValidators: true, new: true }
+    )
+      // You need to add reaction to a thought
+      .then((dbUserData) => {
+        res.status(200).json(dbUserData)
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+
+  },
 
 }
- 
+
 
 module.exports = thoughtController;
