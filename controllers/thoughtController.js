@@ -84,7 +84,20 @@ const thoughtController = {
         console.log(err);
         res.status(500).json(err);
       });
+  },
 
+  deleteReaction(req, res) {
+    Thought.findOneAndDelete(
+      { $pull: { reactions: req.params.reactionId } },
+      { runValidators: true, new: true }
+    )
+      .then((dbUserData) => {
+        res.status(200).json(dbUserData)
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
 
 }
