@@ -11,6 +11,6 @@ const {
 router.route('/').get(getReaction).post(createReaction);
 
 // /api/reactions/:reactionId
-router.route('/:reactionId').get(getSingleReaction).put(updateReaction).delete(deleteReaction);
+router.route('/:reactionId').get(getSingleReaction).delete(deleteReaction);
 
 module.exports = router;
