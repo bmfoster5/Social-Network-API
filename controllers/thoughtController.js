@@ -77,6 +77,7 @@ const thoughtController = {
       { runValidators: true, new: true }
     )
       // You need to add reaction to a thought
+
       .then((dbUserData) => {
         res.status(200).json(dbUserData)
       })
@@ -87,8 +88,9 @@ const thoughtController = {
   },
 
   deleteReaction(req, res) {
-    Thought.findOneAndDelete(
-      { $pull: { reactions: req.params.reactionId } },
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { reactionId: req.params.reactionId} } },
       { runValidators: true, new: true }
     )
       .then((dbUserData) => {
